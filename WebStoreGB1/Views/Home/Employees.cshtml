@@ -4,17 +4,19 @@
     Layout = null;
 }
 
-    <h2>@ViewData["Title"]</h2>
-    <table class="table">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.FirstName</td>
-                <td>@item.SurName</td>
-                <td>@item.Patronymic</td>
-                <td>
-                    @Html.ActionLink("Детали", "EmployeeDetails", new { id = item.Id })
-                </td>
-            </tr>
-        }
-    </table>
+<h2>@ViewData["Title"]</h2>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.SurName</td>
+            <td>@item.Patronymic</td>
+            <td>
+                @Html.ActionLink("Детали", "EmployeeDetails", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+<br />
+@Html.ActionLink("О компании", "Index", "About")
