@@ -35,6 +35,8 @@ namespace WebStoreGB1
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             var helloString = _configuration["CustomHelloWorld"];
 
             app.UseRouting();
