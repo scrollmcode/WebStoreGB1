@@ -1,16 +1,26 @@
 ﻿
-@{
-    Layout = null;
+@await Html.PartialAsync("_Partial/_Slider")
+
+<section>
+    <div class="container">
+        <div class="row">
+            @await Html.PartialAsync("_Partial/_Index/_leftSidebar")
+
+            <div class="col-sm-9 padding-right">
+                @await Html.PartialAsync("_Partial/_Index/_features_items")<!--features_items-->
+
+                @await Html.PartialAsync("_Partial/_Index/_category-tab")<!--/category-tab-->
+
+                @await Html.PartialAsync("_Partial/_Index/_recommended_items")<!--/recommended_items-->
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="/scripts/some_index_script.js"></script>
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>Стартовая страница</p>
-</body>
-</html>
+@section Styles {
+    <link href="~/my-custom-index-styles.css" rel="stylesheet">
+}
