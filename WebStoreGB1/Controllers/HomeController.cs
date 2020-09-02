@@ -3,64 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using WebStoreGB1.ViewModels;
 
-namespace WebStoreGB1.Controllers
+namespace WebStoreGB1.Views
 {
     public class HomeController : Controller
     {
-        private readonly IConfiguration _configuration;
-
-        public HomeController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        private readonly List<EmployeeViewModel> _employees = new List<EmployeeViewModel>
-        {
-            new EmployeeViewModel
-            {
-                Id = 1,
-                FirstName = "Иван",
-                SurName = "Иванов",
-                Patronymic = "Иванович",
-                Age = 22,
-                Position = "Начальник"
-            },
-            new EmployeeViewModel
-            {
-                Id = 2,
-                FirstName = "Владислав",
-                SurName = "Петров",
-                Patronymic = "Иванович",
-                Age = 35,
-                Position = "Программист"
-            }
-        };
-
         public IActionResult Index()
         {
-            return RedirectToAction("Employees"); ;
+            return View();
         }
 
-        public IActionResult Employees()
+        public IActionResult Blog()
         {
-            ViewData["Title"] = _configuration["CustomHelloWorld"];
-            return View(_employees);
+            return View();
         }
 
-        public IActionResult EmployeeDetails(int id)
+        public IActionResult Blog_single()
         {
-            //Получаем сотрудника по Id
-            var employee = _employees.FirstOrDefault(t => t.Id == id);
+            return View();
+        }
 
-            //Если такого не существует
-            if (employee == null)
-                return NotFound(); // возвращаем результат 404 Not Found
+        public IActionResult Cart()
+        {
+            return View();
+        }
 
-            //Иначе возвращаем сотрудника
-            return View(employee);
+        public IActionResult Checkout()
+        {
+            return View();
+        }
+
+        public IActionResult Contact_us()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Product_details()
+        {
+            return View();
+        }
+
+        public IActionResult Shop()
+        {
+            return View();
+        }
+
+        public IActionResult View404()
+        {
+            return View();
         }
 
     }
