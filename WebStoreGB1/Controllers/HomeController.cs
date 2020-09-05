@@ -43,16 +43,6 @@ namespace WebStoreGB1.Views
             return View();
         }
 
-        public IActionResult Product_details()
-        {
-            return View();
-        }
-
-        public IActionResult Shop()
-        {
-            return View();
-        }
-
         public IActionResult View404()
         {
             return View();
