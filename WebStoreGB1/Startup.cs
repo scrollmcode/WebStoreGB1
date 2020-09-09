@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using WebStoreGB1.Infrastructure;
 using WebStoreGB1.Infrastructure.Interfaces;
 using WebStoreGB1.Infrastructure.Services;
+using WebStoreGB1.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreGB1
 {
@@ -30,9 +32,12 @@ namespace WebStoreGB1
         {
             services.AddMvc();
 
+            services.AddDbContext<WebStoreContext>(options => options
+                .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
             // Добавляем разрешение зависимости
             services.AddSingleton<IEmployeesService, InMemoryEmployeesService>();
-            services.AddSingleton<IProductService, InMemoryProductService>();
+            services.AddSingleton<IProductService, SqlProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
