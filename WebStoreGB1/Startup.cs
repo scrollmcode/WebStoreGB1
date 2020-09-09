@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStoreGB1.Infrastructure;
+using WebStoreGB1.Infrastructure.Interfaces;
+using WebStoreGB1.Infrastructure.Services;
+using WebStoreGB1.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreGB1
 {
@@ -18,6 +23,7 @@ namespace WebStoreGB1
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+            
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -25,6 +31,13 @@ namespace WebStoreGB1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<WebStoreContext>(options => options
+                .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            // Добавляем разрешение зависимости
+            services.AddSingleton<IEmployeesService, InMemoryEmployeesService>();
+            services.AddSingleton<IProductService, SqlProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,9 +48,17 @@ namespace WebStoreGB1
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             var helloString = _configuration["CustomHelloWorld"];
 
             app.UseRouting();
+
+            UseMiddlewareSample(app);
+
+            app.UseMiddleware<TokenMiddleware>();
+
+            app.Map("/CustomMethod", CustomIndexHandler);
 
             app.UseEndpoints(endpoints =>
             {
@@ -49,6 +70,40 @@ namespace WebStoreGB1
                 //{
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
+            });
+
+            //app.UseWelcomePage();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Страница не обнаружена.");
+            });
+        }
+
+        private void CustomIndexHandler(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("response to /CustomMethod URL...");
+            });
+        }
+
+        private void UseMiddlewareSample(IApplicationBuilder app)
+        {
+            app.Use(async (context, next) =>
+            {
+                bool isError = false;
+                isError = context.Request.Query["call_error"] == "call_error";
+                // ...
+                if (isError)
+                {
+                    await context.Response
+                        .WriteAsync("Вызвана ошибка /n call_error!");
+                }
+                else
+                {
+                    await next.Invoke();
+                }
             });
         }
     }
