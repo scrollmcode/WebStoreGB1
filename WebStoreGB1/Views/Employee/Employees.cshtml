@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebStoreGB1.ViewModels.EmployeeViewModel>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<td><a asp-action="Edit"><i class="fa fa-inbox"></i>Добавить сотрудника</a></td>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></td>
+            <td><a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-warning"></i></a></td>
+            <td>@item.FirstName</td>
+            <td>@item.SurName</td>
+            <td>@item.Patronymic</td>
+            <td>@Html.ActionLink("Детали", "EmployeeDetails", new { id = item.Id })</td>
+        </tr>
+    }
+</table>
+<br />
+@Html.ActionLink("О компании", "Index", "About")
