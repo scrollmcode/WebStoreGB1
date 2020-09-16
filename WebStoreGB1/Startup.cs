@@ -75,6 +75,9 @@ namespace WebStoreGB1
                 options.SlidingExpiration = true;
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ICartService, CookieCartService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

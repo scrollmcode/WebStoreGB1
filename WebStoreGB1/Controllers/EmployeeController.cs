@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebStoreGB1.ViewModels;
 using WebStoreGB1.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebStoreGB1.Controllers
 {
     [Route("users")]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeesService _employeesService;
@@ -27,6 +29,7 @@ namespace WebStoreGB1.Controllers
         }
 
         [Route("all")]
+        [AllowAnonymous]
         public IActionResult Employees()
         {
             ViewData["Title"] = "Сотрудники";
@@ -34,6 +37,7 @@ namespace WebStoreGB1.Controllers
         }
 
         [Route("{id}")]
+        [Authorize(Roles = "Admins, Users")]
         public IActionResult EmployeeDetails(int id)
         {
             //Получаем сотрудника по Id
@@ -54,6 +58,7 @@ namespace WebStoreGB1.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("edit/{id?}")]
+        [Authorize(Roles = "Admins")]
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -68,6 +73,7 @@ namespace WebStoreGB1.Controllers
 
         [HttpPost]
         [Route("edit/{id?}")]
+        [Authorize(Roles = "Admins")]
         public IActionResult Edit(EmployeeViewModel model)
         {
             // валидация
@@ -105,6 +111,7 @@ namespace WebStoreGB1.Controllers
 
 
         [Route("delete/{id?}")]
+        [Authorize(Roles = "Admins")]
         public IActionResult Delete(int? id)
         {
             if (id.HasValue)
