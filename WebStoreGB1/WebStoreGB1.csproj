@@ -20,4 +20,9 @@
     <ProjectReference Include="..\WebStoreGB1.Domain\WebStoreGB1.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>
